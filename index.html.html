@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Oumi | 声でつながる、新しいコミュニティ</title>
+<meta name="description" content="Oumiは声でつながるソーシャルアプリ。音声チャット・ライブ配信・趣味交流を楽しめる。ライバー・代理店も募集中。">
+<link rel="icon" href="assets/logo-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-soft:#F6F7FC;
+    --bg-soft-2:#F1F3FA;
+    --ink:#15182B;
+    --ink-soft:#5B5F73;
+    --ink-faint:#9498AC;
+    --blue:#4A6CF7;
+    --blue-deep:#3955D6;
+    --pink:#FF6F9C;
+    --pink-deep:#FF5586;
+    --line:#E7E9F2;
+    --grad: linear-gradient(120deg, var(--blue) 0%, var(--pink) 100%);
+    --shadow-soft: 0 20px 50px -20px rgba(21,24,43,0.18);
+    --shadow-card: 0 14px 36px -18px rgba(21,24,43,0.16);
+    --radius-lg: 28px;
+    --radius-md: 20px;
+    --radius-sm: 14px;
+  }
+
+  *{box-sizing:border-box;}
+  html{
+    scroll-behavior:smooth;
+    scroll-padding-top:100px;
+  }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Noto Sans JP","Zen Kaku Gothic New",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  ul{margin:0;padding:0;list-style:none;}
+  section{position:relative;}
+
+  h1,h2,h3,.jp-display{
+    font-family:"Zen Kaku Gothic New","Noto Sans JP",sans-serif;
+    font-weight:700;
+    letter-spacing:0.01em;
+    margin:0;
+  }
+
+  .wrap{
+    max-width:1140px;
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  .eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.12em;
+    color:var(--blue-deep);
+    background:rgba(74,108,247,0.08);
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:18px;
+  }
+  .eyebrow.pink{ color:var(--pink-deep); background:rgba(255,111,156,0.10); }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    padding:15px 30px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    border:none;
+    transition:transform .25s ease, box-shadow .25s ease, opacity .25s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:var(--grad);
+    color:#fff;
+    box-shadow:0 14px 30px -10px rgba(255,85,134,0.45);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 18px 34px -10px rgba(255,85,134,0.55); }
+  .btn-outline{
+    background:#fff;
+    color:var(--ink);
+    border:1.5px solid var(--line);
+  }
+  .btn-outline:hover{ border-color:var(--blue); color:var(--blue-deep); }
+  .btn svg{ width:18px; height:18px; flex-shrink:0; }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(255,255,255,0.82);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s ease, box-shadow .3s ease;
+  }
+  header.scrolled{
+    border-bottom-color:var(--line);
+    box-shadow:0 8px 24px -20px rgba(21,24,43,0.25);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    height:92px;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:"Poppins",sans-serif;
+    font-weight:700;
+    color:var(--ink);
+    flex-shrink:0;
+  }
+  .logo img{
+    width:72px;
+    height:72px;
+    border-radius:20px;
+    object-fit:cover;
+    flex-shrink:0;
+    display:block;
+  }
+  .logo-text{
+    font-size:24px;
+    line-height:1;
+    letter-spacing:-0.02em;
+  }
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:36px;
+  }
+  .nav-links a{
+    font-size:15px;
+    font-weight:500;
+    color:var(--ink-soft);
+    position:relative;
+    padding:4px 0;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-actions{ display:flex; align-items:center; gap:18px; }
+  .nav-cta{ padding:11px 22px; font-size:14px; }
+  .nav-toggle{
+    display:none;
+    width:40px;height:40px;
+    border:none;background:none;
+    cursor:pointer;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+  }
+  .nav-toggle span{
+    width:22px; height:2px;
+    background:var(--ink); border-radius:2px;
+    transition:transform .25s ease, opacity .25s ease;
+  }
+  .nav-toggle.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2){ opacity:0; }
+  .nav-toggle.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+  /* ---------- INTRO HERO + HOST GALLERY ---------- */
+  .intro-hero{
+    padding:56px 0 80px;
+    background:
+      radial-gradient(70% 55% at 50% -8%, rgba(255,111,156,0.07), transparent 55%),
+      radial-gradient(45% 40% at 12% 30%, rgba(74,108,247,0.06), transparent 55%),
+      linear-gradient(180deg, #fff 0%, #FAFBFE 100%);
+    position:relative;
+    overflow:hidden;
+  }
+  .intro-copy{
+    text-align:center;
+    max-width:720px;
+    margin:0 auto 64px;
+  }
+  .intro-copy h1{
+    font-size:clamp(34px, 5.2vw, 54px);
+    line-height:1.28;
+    color:var(--ink);
+    letter-spacing:-0.02em;
+  }
+  .intro-copy h1 .accent{
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .intro-copy .lead{
+    margin-top:24px;
+    font-size:clamp(15px, 2vw, 18px);
+    line-height:1.9;
+    color:var(--ink-soft);
+  }
+  .intro-copy .tagline{
+    margin-top:16px;
+    font-size:14px;
+    color:var(--ink-faint);
+    letter-spacing:0.06em;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+  }
+  .intro-actions{
+    margin-top:36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .intro-scroll{
+    margin-top:48px;
+    text-align:center;
+  }
+  .intro-scroll a{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-faint);
+    letter-spacing:0.08em;
+    transition:color .2s ease, transform .2s ease;
+  }
+  .intro-scroll a:hover{ color:var(--pink-deep); transform:translateY(2px); }
+
+  .host-gallery{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+    max-width:1080px;
+    margin:0 auto;
+    align-items:end;
+    padding:0 4px;
+  }
+  .host-card{
+    position:relative;
+    border-radius:28px;
+    overflow:hidden;
+    background:#0e0f1c;
+    box-shadow:var(--shadow-soft);
+    aspect-ratio:3 / 4.1;
+    transition:transform .45s ease, box-shadow .45s ease;
+  }
+  .host-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 32px 64px -28px rgba(255,85,134,0.28);
+  }
+  .host-card.featured{
+    aspect-ratio:3 / 4.55;
+    transform:translateY(-32px);
+    box-shadow:0 36px 70px -28px rgba(74,108,247,0.22);
+    z-index:2;
+  }
+  .host-card.featured:hover{
+    transform:translateY(-38px);
+    box-shadow:0 40px 76px -26px rgba(255,85,134,0.32);
+  }
+  .host-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center top;
+    display:block;
+  }
+  .host-card .host-glow{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, transparent 55%, rgba(21,24,43,0.45) 100%);
+    pointer-events:none;
+  }
+
+  .heart-field{
+    position:absolute;
+    inset:-40px -20px;
+    pointer-events:none;
+    z-index:5;
+    overflow:visible;
+  }
+  .hf-item{
+    position:absolute;
+    left:var(--x);
+    top:var(--y);
+    font-size:var(--sz, 18px);
+    opacity:0;
+    animation:heartDrift var(--dur, 4s) ease-in-out infinite;
+    animation-delay:var(--d, 0s);
+    filter:drop-shadow(0 4px 12px rgba(255,85,134,0.35));
+  }
+  .hf-item.heart{ color:#FF5586; }
+  .hf-item.spark{ color:#FFB347; font-size:calc(var(--sz, 18px) * 0.85); }
+  @keyframes heartDrift{
+    0%{ opacity:0; transform:translateY(8px) scale(0.6); }
+    15%{ opacity:var(--op, 0.85); transform:translateY(0) scale(1); }
+    70%{ opacity:var(--op, 0.85); transform:translateY(-18px) scale(1.05); }
+    100%{ opacity:0; transform:translateY(-36px) scale(0.8); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hf-item{ animation:none; opacity:0.5; }
+    .host-card, .host-card.featured{ transition:none; }
+    .host-card.featured{ transform:none; }
+  }
+
+  /* ---------- APP FEATURE SECTION ---------- */
+  .app-section{
+    padding:100px 0 30px;
+    background:#fff;
+    border-top:1px solid var(--line);
+  }
+  .app-section .section-head{ margin-bottom:52px; }
+
+  .waveform{ display:flex; align-items:center; gap:3px; height:18px; }
+  .waveform span{
+    width:3px; border-radius:2px;
+    background:var(--grad);
+    animation:wave 1.2s ease-in-out infinite;
+  }
+  .waveform span:nth-child(1){height:6px; animation-delay:0s;}
+  .waveform span:nth-child(2){height:14px; animation-delay:.12s;}
+  .waveform span:nth-child(3){height:9px; animation-delay:.24s;}
+  .waveform span:nth-child(4){height:17px; animation-delay:.36s;}
+  .waveform span:nth-child(5){height:7px; animation-delay:.48s;}
+  @keyframes wave{ 0%,100%{transform:scaleY(0.5);} 50%{transform:scaleY(1);} }
+  @media (prefers-reduced-motion: reduce){ .waveform span{ animation:none; } }
+
+  /* ---------- FEATURE CARDS ---------- */
+  .feature-row{ padding:0; }
+  .section-head{ text-align:center; max-width:620px; margin:0 auto 56px; }
+  .section-head h2{ font-size:32px; line-height:1.45; color:var(--ink); }
+  .section-head p{ margin-top:14px; font-size:15.5px; color:var(--ink-soft); line-height:1.8; }
+
+  .cards3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:26px;
+    align-items:stretch;
+  }
+  .card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:var(--shadow-card);
+    display:flex;
+    flex-direction:column;
+  }
+  .card-media{
+    position:relative;
+    height:300px;
+    overflow:hidden;
+    background:#0e0f1c;
+  }
+  .card-media img.main{
+    width:100%; height:100%;
+    object-fit:cover;
+  }
+  .card-media.crop-chat img.main{ object-position: 50% 35%; }
+  .card-media .inset{
+    position:absolute;
+    width:42%;
+    height:120px;
+    border-radius:14px;
+    overflow:hidden;
+    border:3px solid #fff;
+    box-shadow:0 10px 22px -8px rgba(0,0,0,0.35);
+  }
+  .card-media .inset.br{ right:10px; bottom:10px; }
+  .card-media .inset img{ width:100%; height:100%; object-fit:cover; object-position:50% 20%; display:block; }
+  .card-body{ padding:24px 24px 28px; flex:1; }
+  .card-body h3{ font-size:17px; color:var(--ink); line-height:1.6; }
+  .card-body p{ margin-top:8px; font-size:14px; color:var(--ink-soft); line-height:1.75; }
+
+  /* ---------- SAFETY ROW ---------- */
+  .safety{
+    margin-top:70px;
+    background:var(--bg-soft);
+    border-radius:32px;
+    padding:54px 40px;
+  }
+  .safety-head{ text-align:center; margin-bottom:40px; }
+  .safety-head .eyebrow{ margin-bottom:14px; }
+  .safety-head h2{ font-size:26px; }
+  .safety-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+  }
+  .safety-item{
+    background:#fff;
+    border-radius:var(--radius-md);
+    padding:26px 18px;
+    text-align:center;
+    border:1px solid var(--line);
+  }
+  .safety-item .icon{
+    width:46px; height:46px;
+    margin:0 auto 14px;
+    border-radius:14px;
+    background:var(--grad);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .safety-item .icon svg{ width:24px; height:24px; stroke:#fff; }
+  .safety-item p{ font-size:13.5px; font-weight:500; color:var(--ink); line-height:1.6; margin:0; }
+
+  /* ---------- DOWNLOAD BAND ---------- */
+  .dl-band{
+    margin:90px 0;
+  }
+  .dl-inner{
+    background:linear-gradient(120deg, #4A6CF7 0%, #8C6FF7 50%, #FF6F9C 100%);
+    border-radius:36px;
+    padding:64px 48px;
+    text-align:center;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+  }
+  .dl-inner::before{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(60% 80% at 80% 0%, rgba(255,255,255,0.18), transparent 60%);
+  }
+  .dl-inner h2{ font-size:30px; color:#fff; position:relative; }
+  .dl-inner p{ margin-top:14px; font-size:15.5px; opacity:0.92; position:relative; max-width:480px; margin-inline:auto; }
+  .dl-actions{ margin-top:30px; position:relative; }
+  .btn-store{
+    background:#fff;
+    color:var(--ink);
+    box-shadow:0 16px 34px -14px rgba(0,0,0,0.35);
+  }
+  .btn-store:hover{ transform:translateY(-2px); }
+
+  /* ---------- STORY SECTION ---------- */
+  .story{
+    padding:90px 0;
+    background:var(--bg-soft);
+    border-radius:40px;
+    margin:0 0 90px;
+  }
+  .story-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+  }
+  .story-visual{ position:relative; }
+  .story-visual img{
+    width:100%;
+    height:520px;
+    object-fit:cover;
+    border-radius:28px;
+    box-shadow:var(--shadow-soft);
+  }
+  .story-visual .tag{
+    position:absolute;
+    bottom:20px;
+    left:20px;
+    background:#fff;
+    border-radius:18px;
+    padding:16px 20px;
+    box-shadow:var(--shadow-card);
+    font-family:"Poppins",sans-serif;
+    font-weight:600;
+    font-size:14px;
+    color:var(--ink);
+    max-width:220px;
+    line-height:1.5;
+  }
+  .story-copy .kicker{
+    font-family:"Poppins",sans-serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:0.04em;
+    color:var(--pink-deep);
+    margin-bottom:14px;
+    display:block;
+  }
+  .story-copy h2{
+    font-size:28px;
+    line-height:1.55;
+    color:var(--ink);
+  }
+  .story-copy .lede{
+    margin-top:18px;
+    font-size:15.5px;
+    line-height:1.95;
+    color:var(--ink-soft);
+  }
+  .story-copy .closer{
+    margin-top:22px;
+    font-size:17px;
+    font-weight:700;
+    color:var(--ink);
+  }
+
+  /* ---------- RECRUIT SECTIONS (liver / agency) ---------- */
+  .recruit{ padding:90px 0; }
+  .recruit-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:start;
+  }
+  .recruit-copy h2{ font-size:30px; line-height:1.5; color:var(--ink); }
+  .recruit-copy p.intro{ margin-top:18px; font-size:15.5px; line-height:1.9; color:var(--ink-soft); }
+
+  .point-list{ margin-top:36px; display:grid; gap:18px; }
+  .point{
+    display:flex; gap:16px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:20px;
+  }
+  .point .icon{
+    width:44px;height:44px; flex-shrink:0;
+    border-radius:13px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .point .icon svg{ width:22px;height:22px; }
+  .point h4{ font-size:15.5px; color:var(--ink); margin:0 0 4px; font-family:"Zen Kaku Gothic New",sans-serif; font-weight:700;}
+  .point p{ font-size:13.5px; color:var(--ink-soft); margin:0; line-height:1.7; }
+
+  .liver-blue .icon{ background:rgba(74,108,247,0.10); }
+  .liver-blue .icon svg{ stroke:var(--blue-deep); }
+  .agency-pink .icon{ background:rgba(255,111,156,0.12); }
+  .agency-pink .icon svg{ stroke:var(--pink-deep); }
+
+  .recruit-side{
+    background:var(--bg-soft);
+    border-radius:var(--radius-lg);
+    padding:32px;
+  }
+  .recruit-photo{
+    border-radius:var(--radius-md);
+    overflow:hidden;
+    margin-bottom:28px;
+    box-shadow:var(--shadow-card);
+  }
+  .recruit-photo img{ width:100%; height:230px; object-fit:cover; }
+
+  .flow{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .flow-step{
+    display:flex; flex-direction:column; align-items:center;
+    gap:10px;
+    flex:1;
+    min-width:80px;
+  }
+  .flow-step .num{
+    width:38px;height:38px;
+    border-radius:50%;
+    background:#fff;
+    border:2px solid var(--blue);
+    color:var(--blue-deep);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700; font-size:14px;
+    font-family:"Poppins",sans-serif;
+  }
+  .agency-pink-flow .flow-step .num{ border-color:var(--pink); color:var(--pink-deep); }
+  .flow-step span.label{ font-size:12.5px; color:var(--ink); font-weight:500; text-align:center; }
+  .flow-arrow{ color:var(--ink-faint); font-size:16px; }
+
+  .qr-card{
+    background:#fff;
+    border-radius:var(--radius-md);
+    padding:24px;
+    text-align:center;
+    box-shadow:var(--shadow-card);
+  }
+  .qr-card img{
+    width:148px; height:148px;
+    margin:0 auto 14px;
+    border-radius:12px;
+    border:1px solid var(--line);
+  }
+  .qr-card h4{ font-size:15px; color:var(--ink); margin:0 0 6px; }
+  .qr-card p{ font-size:12.5px; color:var(--ink-soft); margin:0; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:#101226;
+    color:#C9CBE0;
+    padding:60px 0 30px;
+    margin-top:40px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:40px;
+    padding-bottom:36px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .footer-brand{ display:flex; align-items:center; gap:10px; font-family:"Poppins",sans-serif; font-weight:700; color:#fff; margin-bottom:14px;}
+  .footer-brand img{
+    width:60px;
+    height:60px;
+    border-radius:16px;
+    object-fit:cover;
+    flex-shrink:0;
+  }
+  .footer-brand .logo-text{ font-size:22px; line-height:1; color:#fff; }
+  .footer-col h5{ color:#fff; font-size:14px; margin:0 0 16px; font-weight:700; letter-spacing:0.02em;}
+  .footer-col ul{ display:grid; gap:10px; }
+  .footer-col a, .footer-col p{ font-size:13.5px; color:#9CA0BD; line-height:1.8; margin:0;}
+  .footer-col a:hover{ color:#fff; }
+  .footer-bottom{
+    padding-top:24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:12.5px;
+    color:#7B7E9C;
+  }
+  .age-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:999px;
+    padding:5px 12px;
+    font-size:11.5px;
+    color:#C9CBE0;
+  }
+
+  /* ---------- REVEAL ANIM ---------- */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .intro-hero{ padding:40px 0 64px; }
+    .intro-copy{ margin-bottom:48px; }
+    .host-gallery{ gap:14px; max-width:720px; }
+    .host-card{ border-radius:22px; aspect-ratio:3 / 4; }
+    .host-card.featured{ transform:translateY(-16px); aspect-ratio:3 / 4.2; }
+    .host-card.featured:hover{ transform:translateY(-20px); }
+    .app-section{ padding:80px 0 24px; }
+    .cards3{ grid-template-columns:1fr; }
+    .safety-grid{ grid-template-columns:repeat(2,1fr); }
+    .story-grid, .recruit-grid{ grid-template-columns:1fr; gap:40px; }
+    .story-visual{ margin-bottom:0; }
+    .story-visual img{ height:320px; }
+    .story-visual .tag{ left:16px; bottom:16px; }
+  }
+  @media (max-width:760px){
+    html{ scroll-padding-top:100px; }
+    .nav{ height:92px; }
+    .nav-links{
+      position:fixed; top:92px; left:0; right:0;
+      background:#fff;
+      flex-direction:column;
+      align-items:flex-start;
+      padding:20px 24px 26px;
+      gap:18px;
+      border-bottom:1px solid var(--line);
+      box-shadow:0 18px 30px -20px rgba(21,24,43,0.2);
+      transform:translateY(-12px);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .25s ease, transform .25s ease;
+    }
+    .nav-links.open{ transform:translateY(0); opacity:1; pointer-events:auto; }
+    .nav-cta.desktop-only{ display:none; }
+    .nav-toggle{ display:flex; }
+    .logo img{ width:64px; height:64px; }
+    .logo-text{ font-size:21px; }
+    .intro-hero{ padding:32px 0 48px; }
+    .intro-copy{ margin-bottom:36px; }
+    .intro-actions{ margin-top:28px; }
+    .intro-actions .btn{ padding:13px 22px; font-size:14px; }
+    .host-gallery{
+      grid-template-columns:1fr;
+      max-width:340px;
+      gap:16px;
+    }
+    .host-card,
+    .host-card.featured{
+      aspect-ratio:3 / 3.8;
+      transform:none;
+    }
+    .host-card.featured:hover,
+    .host-card:hover{ transform:none; }
+    .heart-field{ inset:-20px -10px; }
+    .intro-scroll{ margin-top:32px; }
+    .section-head h2{ font-size:25px; }
+    .dl-inner{ padding:48px 26px; }
+    .dl-inner h2{ font-size:24px; }
+    .story, .safety{ border-radius:26px; padding:50px 22px; }
+    .footer-grid{ grid-template-columns:1fr; gap:30px; }
+    .flow{ justify-content:flex-start; }
+    .recruit{ padding:70px 0; }
+    .recruit-side{ padding:24px; }
+  }
+  @media (max-width:480px){
+    .safety-grid{ grid-template-columns:1fr; }
+    .flow-step{ min-width:68px; }
+    .flow-step span.label{ font-size:11.5px; }
+    .agency-pink-flow .flow-arrow{ display:none; }
+    .agency-pink-flow{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:16px 12px;
+    }
+    .agency-pink-flow .flow-step{ min-width:0; }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="wrap nav">
+    <a href="#top" class="logo">
+      <img src="assets/logo-icon.png" alt="Oumi ロゴ">
+      <span class="logo-text">Oumi</span>
+    </a>
+    <nav class="nav-links" id="nav-links">
+      <a href="#top">ホーム</a>
+      <a href="#app">アプリ紹介</a>
+      <a href="#product">プロダクト紹介</a>
+      <a href="#liver">ライバー募集</a>
+      <a href="#agency">代理店募集</a>
+      <a href="https://play.google.com/store/apps/details?id=chat.oumi.app" class="btn btn-primary nav-cta">今すぐダウンロード</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="https://play.google.com/store/apps/details?id=chat.oumi.app" class="btn btn-primary nav-cta desktop-only">ダウンロード</a>
+      <button class="nav-toggle" id="nav-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= INTRO + HOST GALLERY ================= -->
+  <section class="intro-hero">
+    <div class="wrap">
+      <div class="intro-copy reveal">
+        <span class="eyebrow">VOICE SOCIAL APP</span>
+        <h1>声でつながる、<br><span class="accent">新しいコミュニティ。</span></h1>
+        <p class="lead">Oumiは、世界中のユーザーと音声チャット・ライブ配信・趣味交流を楽しめるソーシャルアプリ。マッチングを待たず、声から自然につながる出会いがここに。</p>
+        <p class="tagline">
+          <span class="waveform"><span></span><span></span><span></span><span></span><span></span></span>
+          &nbsp;世界50カ国以上で利用中
+        </p>
+        <div class="intro-actions">
+          <a href="https://play.google.com/store/apps/details?id=chat.oumi.app" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.13L13.69 12L3.84 21.87C3.34 21.61 3 21.09 3 20.5Z" fill="currentColor"/><path d="M16.81 8.88L6.05 2.66L14.85 11.46L16.81 8.88Z" fill="currentColor"/><path d="M20.16 10.81C20.71 11.08 21 11.51 21 12C21 12.49 20.71 12.92 20.16 13.19L17.89 14.5L15.43 12L17.89 9.5L20.16 10.81Z" fill="currentColor"/><path d="M6.05 21.34L14.85 12.54L16.81 15.12L6.05 21.34Z" fill="currentColor"/></svg>
+            Google Playでダウンロード
+          </a>
+          <a href="#app" class="btn btn-outline">アプリを見る</a>
+        </div>
+      </div>
+
+      <div class="host-gallery reveal">
+        <div class="heart-field" aria-hidden="true">
+          <span class="hf-item heart" style="--x:4%;--y:12%;--d:0s;--dur:3.8s;--sz:20px;--op:0.9">♥</span>
+          <span class="hf-item heart" style="--x:18%;--y:68%;--d:1.2s;--dur:4.4s;--sz:14px;--op:0.7">♥</span>
+          <span class="hf-item spark" style="--x:42%;--y:6%;--d:0.6s;--dur:3.2s;--sz:16px;--op:0.8">✦</span>
+          <span class="hf-item heart" style="--x:58%;--y:72%;--d:2s;--dur:4s;--sz:22px;--op:0.85">♥</span>
+          <span class="hf-item spark" style="--x:78%;--y:18%;--d:1.6s;--dur:3.6s;--sz:15px;--op:0.75">✦</span>
+          <span class="hf-item heart" style="--x:92%;--y:55%;--d:0.3s;--dur:4.2s;--sz:17px;--op:0.8">♥</span>
+          <span class="hf-item heart" style="--x:32%;--y:38%;--d:2.4s;--dur:3.5s;--sz:12px;--op:0.6">♥</span>
+          <span class="hf-item spark" style="--x:88%;--y:82%;--d:1s;--dur:4.6s;--sz:13px;--op:0.65">✦</span>
+        </div>
+        <article class="host-card">
+          <img src="assets/portrait-water.png" alt="Oumiホスト">
+          <div class="host-glow"></div>
+        </article>
+        <article class="host-card featured">
+          <img src="assets/portrait-coffee.png" alt="Oumiホスト">
+          <div class="host-glow"></div>
+        </article>
+        <article class="host-card">
+          <img src="assets/portrait-cream.png" alt="Oumiホスト">
+          <div class="host-glow"></div>
+        </article>
+      </div>
+
+      <div class="intro-scroll reveal">
+        <a href="#app">アプリの機能を見る ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= APP FEATURES ================= -->
+  <section class="app-section" id="app">
+    <div class="wrap feature-row">
+      <div class="section-head reveal">
+        <span class="eyebrow pink">APP EXPERIENCE</span>
+        <h2>Oumiアプリで、こんな体験ができる</h2>
+        <p>気軽な音声チャットから、好きな雰囲気のルームまで。アプリの中で、声から始まる自然なつながりをお楽しみください。</p>
+      </div>
+
+      <div class="cards3">
+        <div class="card reveal">
+          <div class="card-media crop-chat">
+            <img class="main" src="assets/chatlist.png" alt="Oumiのトーク一覧画面" loading="lazy">
+          </div>
+          <div class="card-body">
+            <h3>マッチ不要で、<br>すぐにトーク開始</h3>
+            <p>複雑な手続きはいりません。気になる相手にそのままメッセージを送って、自然な会話をスタートできます。</p>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-media">
+            <img class="main" src="assets/room-rain.png" alt="Oumiのボイスルーム（夜の雰囲気）" loading="lazy">
+            <div class="inset br">
+              <img src="assets/room-stadium.png" alt="Oumiのボイスルーム（賑やかな雰囲気）" loading="lazy">
+            </div>
+          </div>
+          <div class="card-body">
+            <h3>好きな雰囲気のルームで、<br>会話はノンストップ</h3>
+            <p>まったり雑談から賑やかなイベント配信まで、テーマ別のルームが充実。気分に合わせて好きな場所へ。</p>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <div class="card-media">
+            <img class="main" src="assets/room-sunset.png" alt="Oumiのボイスルーム画面" loading="lazy">
+          </div>
+          <div class="card-body">
+            <h3>顔出し不要、<br>声だけで心地よい時間</h3>
+            <p>無理に画面を見せ合う必要はありません。声を通じて自然体のまま、安心して会話を楽しめます。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAFETY -->
+      <div class="safety reveal">
+        <div class="safety-head">
+          <span class="eyebrow">SAFETY</span>
+          <h2>安全・安心して出会える場所</h2>
+        </div>
+        <div class="safety-grid">
+          <div class="safety-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3z"/><path d="M9 12l2 2 4-4"/></svg></div>
+            <p>24時間体制の<br>監視・サポート</p>
+          </div>
+          <div class="safety-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/></svg></div>
+            <p>かんたんな<br>通報・ブロック機能</p>
+          </div>
+          <div class="safety-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></div>
+            <p>個人情報を<br>安全に保護</p>
+          </div>
+          <div class="safety-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"/></svg></div>
+            <p>18歳以上のみ<br>ご利用可能</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="dl-band">
+    <div class="wrap">
+      <div class="dl-inner reveal">
+        <h2>今すぐOumiを始めよう</h2>
+        <p>声でつながる新しいコミュニティへ。インストールはわずか数秒で完了します。</p>
+        <div class="dl-actions">
+          <a href="https://play.google.com/store/apps/details?id=chat.oumi.app" class="btn btn-store">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 20.5V3.5C3 2.91 3.34 2.39 3.84 2.13L13.69 12L3.84 21.87C3.34 21.61 3 21.09 3 20.5Z" fill="#4A6CF7"/><path d="M16.81 8.88L6.05 2.66L14.85 11.46L16.81 8.88Z" fill="#34A853"/><path d="M20.16 10.81C20.71 11.08 21 11.51 21 12C21 12.49 20.71 12.92 20.16 13.19L17.89 14.5L15.43 12L17.89 9.5L20.16 10.81Z" fill="#FBBC05"/><path d="M6.05 21.34L14.85 12.54L16.81 15.12L6.05 21.34Z" fill="#EA4335"/></svg>
+            Google Playで入手
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRODUCT STORY ================= -->
+  <section class="story" id="product">
+    <div class="wrap story-grid">
+      <div class="story-visual reveal">
+        <img src="assets/room-gift.png" alt="Oumiのルーム内ギフト演出" loading="lazy">
+        <div class="tag">Your voice,<br>their story.</div>
+      </div>
+      <div class="story-copy reveal">
+        <span class="kicker">PRODUCT STORY</span>
+        <h2>声で、物語を始めよう。</h2>
+        <p class="lede">
+          Oumiは、声でつながる没入型ソーシャルプレイグラウンドです。ただおしゃべりするだけじゃない——あなたは誰かに"なる"ことができます。<br><br>
+          魅力的な女性ホストと一緒に、テーマ別のイマーシブなルームへ。独自の役割を選び、キャラクターになりきって語り合う。リアルタイムで物語が動き出し、声の向こうに隠された過去や、未来を変える出会いが待っています。<br><br>
+          世界50カ国以上で愛されるボイスチャット体験を、気軽に、自由に、楽しく。気に入ったホストを応援しながら、特別なひとときをお過ごしください。<br><br>
+          安心・安全な環境を大切に、欧米で磨かれたクオリティをそのままに——いよいよ日本上陸。
+        </p>
+        <p class="closer">声で、物語を始めよう。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= LIVER RECRUIT ================= -->
+  <section class="recruit" id="liver">
+    <div class="wrap recruit-grid">
+      <div class="recruit-copy reveal">
+        <span class="eyebrow">ライバー募集</span>
+        <h2>好きな時間に、<br>声でつながり、収益化。</h2>
+        <p class="intro">Oumiでは、音声チャットやライブ配信を通じて世界中のユーザーと交流できます。未経験の方も大歓迎です。</p>
+
+        <div class="point-list">
+          <div class="point liver-blue">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/></svg></div>
+            <div><h4>スマホひとつで始められる</h4><p>特別な機材は不要。自宅から気軽に配信できます。</p></div>
+          </div>
+          <div class="point liver-blue">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19c5-3 8-6.5 8-10.5A5.5 5.5 0 0 0 12 5a5.5 5.5 0 0 0-8 3.5C4 12.5 7 16 12 19z"/><line x1="4" y1="3" x2="20" y2="21"/></svg></div>
+            <div><h4>顔出し不要</h4><p>声を中心としたコミュニケーション。自分らしいスタイルで活動できます。</p></div>
+          </div>
+          <div class="point liver-blue">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg></div>
+            <div><h4>未経験歓迎</h4><p>配信経験がなくても大丈夫。運営チームがしっかりサポートします。</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recruit-side reveal">
+        <div class="recruit-photo">
+          <img src="assets/portrait-cream.png" alt="Oumiライバーのイメージ" loading="lazy">
+        </div>
+        <div class="flow">
+          <div class="flow-step"><div class="num">1</div><span class="label">応募</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step"><div class="num">2</div><span class="label">面談</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step"><div class="num">3</div><span class="label">配信スタート</span></div>
+        </div>
+        <div class="qr-card">
+          <img src="assets/qr-line.jpg" alt="ライバー応募用LINE QRコード" loading="lazy">
+          <h4>応募はこちら</h4>
+          <p>LINEから気軽にご応募ください</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AGENCY RECRUIT ================= -->
+  <section class="recruit" id="agency" style="background:var(--bg-soft); border-radius:40px;">
+    <div class="wrap recruit-grid">
+      <div class="recruit-copy reveal">
+        <span class="eyebrow pink">代理店募集</span>
+        <h2>Oumiとともに、<br>新しいコミュニティを広げませんか？</h2>
+        <p class="intro">現在、個人・法人問わず、事務所パートナーとしてご活躍いただける方を募集しています。</p>
+
+        <div class="point-list">
+          <div class="point agency-pink">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div><h4>ライバー育成を支援</h4><p>新人ライバーの成長をサポートできます。</p></div>
+          </div>
+          <div class="point agency-pink">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+            <div><h4>専属サポート</h4><p>運営チームが継続的にサポートします。</p></div>
+          </div>
+          <div class="point agency-pink">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+            <div><h4>長期的なパートナーシップ</h4><p>日本市場の拡大を共に目指します。</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recruit-side reveal" style="background:#fff;">
+        <div class="flow agency-pink-flow" style="margin-bottom:30px;">
+          <div class="flow-step"><div class="num">1</div><span class="label">お問い合わせ</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step"><div class="num">2</div><span class="label">ご相談</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step"><div class="num">3</div><span class="label">契約</span></div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step"><div class="num">4</div><span class="label">運営開始</span></div>
+        </div>
+        <div class="qr-card">
+          <img src="assets/qr-line.jpg" alt="代理店お問い合わせ用LINE QRコード" loading="lazy">
+          <h4>お問い合わせ</h4>
+          <p>LINEから気軽にご相談ください</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand"><img src="assets/logo-icon.png" alt="Oumi"><span class="logo-text">Oumi</span></div>
+        <p style="max-width:280px;">声でつながる、新しいコミュニティ。世界中のユーザーと音声チャット・ライブ配信・趣味交流を楽しめるソーシャルアプリです。</p>
+      </div>
+      <div class="footer-col">
+        <h5>サイトマップ</h5>
+        <ul>
+          <li><a href="#top">ホーム</a></li>
+          <li><a href="#app">アプリ紹介</a></li>
+          <li><a href="#product">プロダクト紹介</a></li>
+          <li><a href="#liver">ライバー募集</a></li>
+          <li><a href="#agency">代理店募集</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>運営会社</h5>
+        <ul>
+          <li><p>Onlyou Co., Limited</p></li>
+          <li><a href="mailto:2993620749a@gmail.com">2993620749a@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Onlyou Co., Limited. All rights reserved.</span>
+      <span class="age-badge">🔒 本サービスは18歳以上の方のみご利用いただけます</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // header shadow on scroll
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  });
+
+  // mobile nav toggle
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  const setNavOpen = (open) => {
+    navLinks.classList.toggle('open', open);
+    navToggle.classList.toggle('open', open);
+    navToggle.setAttribute('aria-expanded', open);
+    navToggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+  };
+  navToggle.addEventListener('click', () => {
+    setNavOpen(!navLinks.classList.contains('open'));
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => setNavOpen(false));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setNavOpen(false);
+  });
+
+  // reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => obs.observe(el));
+  } else {
+    reveals.forEach(el => el.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
